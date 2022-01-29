@@ -11,7 +11,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
+            sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" -y
             apt-get -qq update
             apt-get -qq -y install lsb-release curl git libicu55 libxml2 libcurl4-openssl-dev libc6-dev clang
       - run:
