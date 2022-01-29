@@ -1,30 +1,19 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/configuration-reference
-version: 2.1
+version: 2
 
-orbs:
-  docker: circleci/docker@1.7.0
-
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+  build:
     docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+      - image: swift:4.1
+
     steps:
       - checkout
-      - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
-      - docker/dockerlint
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
-workflows:
-  say-hello-workflow:
-    jobs:
-      - say-hello
+      - run:
+          name: Install Dependencies
+          command: |
+            apt-get -qq update
+            apt-get -qq -y install lsb-release curl git libicu55 libxml2 libcurl4-openssl-dev libc6-dev clang
+      - run:
+          name: Run Tests
+          command: |
+            swift test
