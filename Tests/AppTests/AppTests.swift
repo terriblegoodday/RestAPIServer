@@ -9,7 +9,7 @@ final class AppTests: XCTestCase {
 
         try app.test(.GET, "hello", afterResponse: { res in
             XCTAssertEqual(res.status, .ok)
-            XCTAssertEqual(res.body.string, "Hello, world!")
+            XCTAssertEqual(res.body.string, "Hello, world! Current environment: DEBUG")
         })
     }
 }

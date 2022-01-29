@@ -9,7 +9,12 @@ func routes(_ app: Application) throws {
     }
 
     app.get("hello") { req -> String in
-        return "Hello, world!"
+        #if DEBUG
+            let env = "DEBUG"
+        #else
+            let env = "PRODUCTION"
+        #endif
+        return "Hello, world! Current environment: \(env)"
     }
 
     app.post("user") { req async throws -> User in
