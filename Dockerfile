@@ -34,8 +34,8 @@ RUN cp "$(swift build --package-path /build -c release --show-bin-path)/Run" ./
 
 # Copy any resources from the public directory and views directory if the directories exist
 # Ensure that by default, neither the directory nor any of its contents are writable.
-RUN [ -d /build/Public ] && { mv /build/Public ./Public && chmod -R a-w ./Public; } || true
-RUN [ -d /build/Resources ] && { mv /build/Resources ./Resources && chmod -R a-w ./Resources; } || true
+RUN [ -d /build/Public ] && { mv /build/Public ./Public && chmod -R a+w ./Public; } || true
+RUN [ -d /build/Resources ] && { mv /build/Resources ./Resources && chmod -R a+w ./Resources; } || true
 
 # ================================
 # Run image
@@ -59,8 +59,8 @@ COPY --from=build --chown=vapor:vapor /staging /app
 USER vapor:vapor
 
 # Let Docker bind to port 8080
-EXPOSE 8080
+EXPOSE $PORT
 
 # Start the Vapor service when the image is run, default to listening on 8080 in production environment
-ENTRYPOINT ["./Run"]
-CMD ["serve", "--env", "production", "--hostname", "0.0.0.0", "--port", "8080"]
+ENTRYPOINT ./Run
+CMD serve --env production

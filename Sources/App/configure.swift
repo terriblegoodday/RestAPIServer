@@ -18,6 +18,9 @@ public func configure(_ app: Application) throws {
 
     app.routes.defaultMaxBodySize = "10mb"
 
+    app.http.server.configuration.hostname = "0.0.0.0"
+    app.http.server.configuration.port = Int(ProcessInfo.processInfo.environment["PORT"]!)!
+
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
     // register routes
